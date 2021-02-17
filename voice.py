@@ -4,6 +4,10 @@ import time
 from joke.jokes import *
 import requests, json
 import pytemperature
+import random
+import pafy
+import vlc
+
 
 def speech_recognition(recognizer, microphone):
     
@@ -47,6 +51,19 @@ def parser():
     dance_words = ['dance', 'move', 'spin']
     goodbye_words = ['bye', 'goodbye', 'later']
     self_words = ['you']
+    sing_words = ['sing']
+    music_words = ['music']
+    age_words = ['age', 'old']
+    facts_words = ['interesting', 'fact']
+    game_words = ['game', 'guess']
+    facts_list = [ #list of all fun facts available for bruinbot to say
+        "Gene Block is Old",
+        "UCLA is 101 years old"
+        ]
+    music_list = [  #urls to youtube videos bruinbot will play as audio
+        #entries in music list are of the form ("Youtube URL", StartingTime, RunTime)
+        ("https://www.youtube.com/watch?v=dQw4w9WgXcQ",42.5, 18.7)
+    ]
     # Sing feature - Goodnews(22)
     # Play Music - gmusicapi, vlc
     # Age
@@ -69,7 +86,7 @@ def parser():
             words = action['transcription'].split()
         except AttributeError:
             words = ['']
-
+        print("You said: {}".format(action["transcription"]))
         for word in words:
             if(word in weather_words):
                 action_taken = True
@@ -103,6 +120,52 @@ def parser():
                 action_taken = True
                 PROMPT_LIMIT -= 1
                 break
+            elif (word in sing_words):
+                engine.setProperty('voice', 'com.apple.speech.synthesis.voice.goodnews')
+                lyrics = "I am Brew in bot. I am an immortal. Nice to meet you."
+                engine.say(lyrics)
+                engine.setProperty('voice', 'com.apple.speech.synthesis.voice.daniel')
+                action_taken = True
+                PROMPT_LIMIT -= 1
+                break
+            elif(word in music_words):
+                engine.say("This is one of my favorite songs. I hope you enjoy.")
+                engine.runAndWait()
+                song = random.choice(music_list)                                                                                       
+                video = pafy.new(song[0])                                                                                                           
+                best = video.getbestaudio()                                                                                                                 
+                playurl = best.url                                                                                                                        
+                Instance = vlc.Instance()
+                player = Instance.media_player_new()
+                Media = Instance.media_new(playurl)
+                Media.add_option(f"start-time={song[1]}")
+                Media.add_option(f"run-time={song[2]}") 
+                player.set_media(Media)
+                player.play()
+                time.sleep(song[2])
+                action_taken = True
+                PROMPT_LIMIT -= 1
+                break
+            elif (word in age_words):
+                min_age = 0
+                max_age = 186
+                age = random.randint(min_age, max_age)
+                engine.say(f"I am {age} years old")
+                action_taken = True
+                PROMPT_LIMIT -= 1
+                break
+            elif (word in facts_words):
+                fact = random.choice(facts_list)
+                engine.say(fact)
+                action_taken = True
+                PROMPT_LIMIT -= 1
+                break
+            elif(word in game_words):
+                engine.say("Lets play a game")
+                guessingGame()
+                action_taken = True
+                PROMPT_LIMIT -= 1
+                break
         
         if(action_taken == False):
             engine.say("I did not understand that, please try again")
@@ -110,10 +173,52 @@ def parser():
         if action["error"]:
             print("ERROR: {}".format(action["error"]))
             break
-        print("You said: {}".format(action["transcription"]))
+        #print("You said: {}".format(action["transcription"])) moved up before if statements
 
         engine.runAndWait()
         
+
+def guessingGame():
+    NUM_GUESSES = 2
+    engine = pyttsx3.init()
+    engine.setProperty('voice', 'com.apple.speech.synthesis.voice.daniel')
+    recognizer = sr.Recognizer()
+    microphone = sr.Microphone()
+    min = 1
+    max = 10
+    answer = random.randint(min, max)
+    engine.say(f"I'm thinking of a number from {min} to {max}. See if you can guess it")
+    engine.runAndWait()
+    while(NUM_GUESSES > 0):
+        action = speech_recognition(recognizer, microphone)
+        try: 
+            words = action['transcription'].split()
+        except AttributeError:
+            words = ['']
+        nums = {"one": 1, "1": 1, "two": 2, "2": 2, "to": 2, "too": 2, "three": 3, "3": 3, "four": 4, "4": 4, "for": 4, "five": 5, "5": 5,
+        "5:00":5, "six": 6, "6": 6,"seven":7, "7":7, "eight":8, "8":8, "ate":8, "nine":9, "9":9, "ten":10, "10":10
+        }
+        made_guess = False #indicates if user made a proper guess this turn
+        for word in words:
+            guess = nums.get(word, -1)
+            if guess != -1:  #if user guessed a number compare to bruinbots number 
+                if guess == answer:
+                    engine.say(f"Thats correct, {answer} was my number.")
+                    NUM_GUESSES = 0
+                else:
+                    if NUM_GUESSES == 1:  #if this is the final guess say losing message
+                        engine.say(f"Sorry, I was thinking of the number {answer}. Better luck next time.")
+                    elif answer>guess: #if first guess give hint and allow another guess
+                        engine.say(f"My number is greater than {guess}. I'll give you one more guess")
+                    else:
+                        engine.say(f"My number is less than {guess}. I'll give you one more guess")
+                NUM_GUESSES -= 1
+                made_guess = True
+                break
+        if not made_guess:
+            engine.say(f"Try guessing a number from {min} to {max}")
+        print("You said: {}".format(action["transcription"]))
+        engine.runAndWait()
 
 
 
