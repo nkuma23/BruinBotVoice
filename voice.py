@@ -51,10 +51,10 @@ def parser():
     dance_words = ['dance', 'move', 'spin']
     goodbye_words = ['bye', 'goodbye', 'later']
     self_words = ['you']
-    sing_words = ['sing']
+    sing_words = ['sing', 'Sing'] #check if case matters
     music_words = ['music']
     age_words = ['age', 'old']
-    facts_words = ['interesting', 'fact']
+    facts_words = ['fact', 'interesting']
     game_words = ['game', 'guess']
     facts_list = [ #list of all fun facts available for bruinbot to say
         "Gene Block is Old",
