@@ -45,17 +45,17 @@ def speech_recognition(recognizer, microphone):
 
     return response
 
-def parser():
-    weather_words = ['weather', 'whether', 'temperature', 'climate', 'sun', 'sunny']
+def parser(button_input=""):
+    weather_words = ['weather', 'weather?', 'whether', 'temperature', 'climate', 'sun', 'sunny']
     joke_words = ['joke','tell', 'humour', 'laugh']
-    dance_words = ['dance', 'move', 'spin']
+    dance_words = ['dance', 'dance!', 'move', 'spin']
     goodbye_words = ['bye', 'goodbye', 'later']
-    self_words = ['you']
+    self_words = ['you', 'you?']
     sing_words = ['sing', 'Sing'] #check if case matters
     music_words = ['music']
     age_words = ['age', 'old']
     facts_words = ['fact', 'interesting']
-    game_words = ['game', 'guess']
+    game_words = ['game', 'game.', 'guess']
     facts_list = [ #list of all fun facts available for bruinbot to say
         "Gene Block is Old",
         "UCLA is 101 years old"
@@ -81,11 +81,20 @@ def parser():
     
     while(PROMPT_LIMIT > 0):
         action_taken = False
-        action = speech_recognition(recognizer, microphone)
-        try: 
+        if(button_input=="Press To Speak To BruinBot" or button_input== ""):
+            action = speech_recognition(recognizer, microphone)
+            try: 
+                words = action['transcription'].split()
+            except AttributeError:
+                words = ['']
+        else:
+            action = {
+            "success": True,
+            "error": None,
+            "transcription": button_input
+            }
             words = action['transcription'].split()
-        except AttributeError:
-            words = ['']
+
         print("You said: {}".format(action["transcription"]))
         for word in words:
             if(word in weather_words):
