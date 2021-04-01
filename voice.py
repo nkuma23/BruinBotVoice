@@ -7,7 +7,7 @@ import pytemperature
 import random
 import pafy
 import vlc
-
+import os
 
 def speech_recognition(recognizer, microphone):
     
@@ -57,12 +57,12 @@ def parser(button_input=""):
     facts_words = ['fact', 'interesting']
     game_words = ['game', 'game.', 'guess']
     facts_list = [ #list of all fun facts available for bruinbot to say
-        "Gene Block is Old",
+        "Gene Block is 72 years young",
         "UCLA is 101 years old"
         ]
     music_list = [  #urls to youtube videos bruinbot will play as audio
         #entries in music list are of the form ("Youtube URL", StartingTime, RunTime)
-        ("https://www.youtube.com/watch?v=dQw4w9WgXcQ",42.5, 18.7)
+        ("https://www.youtube.com/watch?v=dQw4w9WgXcQ",42.5, 9) # "Never Gonna Give You Up", Rick Astley, 18.4 for full chorus, 9 for first half of chorus
     ]
     # Sing feature - Goodnews(22)
     # Play Music - gmusicapi, vlc
@@ -143,9 +143,13 @@ def parser(button_input=""):
                 song = random.choice(music_list)                                                                                       
                 video = pafy.new(song[0])                                                                                                           
                 best = video.getbestaudio()                                                                                                                 
-                playurl = best.url                                                                                                                        
+                playurl = best.url
+                fd = os.open('nul', os.O_WRONLY)
+                savefd = os.dup(2)
+                os.dup2(fd,2)                                                                                                                       
                 Instance = vlc.Instance()
                 player = Instance.media_player_new()
+                os.dup2(savefd,2)
                 Media = Instance.media_new(playurl)
                 Media.add_option(f"start-time={song[1]}")
                 Media.add_option(f"run-time={song[2]}") 
