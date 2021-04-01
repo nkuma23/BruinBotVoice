@@ -9,17 +9,23 @@ def displayGUI():
     [sg.Button(button_text='Press To Speak To BruinBot' ,  image_filename='./button.png', image_size=(300,300), image_subsample=5, border_width=0, button_color=(sg.theme_background_color(),sg.theme_background_color()))],
     [sg.Button('Who are you'),
     sg.Button('Tell me a fun fact'), sg.Button('Whats the weather')]]
-    commandList = ["Whats the weather?", "Do a dance!", "Sing a song", "Play music", "How old are you?", "Tell me a fun fact"]
+
+    #for commandList use the main keyword for each command you want to call
+    #button image must be in the ./images/commands/ folder and named [keyword].png  ex: ./images/commands/weather.png
+    commandList = ["weather", "dance", "song", "music", "old", "fact"]
     random_commands = random.sample(commandList, 3)
     
     layout = [
-        [sg.Button(button_text='Who are you?', image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
-        sg.Button(button_text='Lets Play a game',  image_filename='./images/green_rectangle.png', image_size=(338, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
-        sg.Button(button_text='Tell me a joke', image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color()))],
-        [sg.Button(button_text='Press To Speak To BruinBot', image_filename='./images/button.png', image_size=(315, 315), image_subsample=4, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color()))],
-        [sg.Button(button_text=random_commands[0], image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
-        sg.Button(button_text=random_commands[1], image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
-        sg.Button(button_text=random_commands[2], image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color()))]
+        [sg.Button(key="Who are you?", image_filename='./images/commands/who.png', image_size=(336, 140), border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
+        sg.Button(key="Lets Play a game", image_filename='./images/commands/game.png', image_size=(336, 140), border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
+        sg.Button(key="Tell me a joke", image_filename='./images/commands/joke.png', image_size=(336, 140), border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color()))],
+        [sg.Button(key='Press To Speak To BruinBot', image_filename='./images/speak.png', image_size=(320, 320), border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color()))],
+        [sg.Button(key=random_commands[0], image_filename=f'./images/commands/{random_commands[0]}.png', image_size=(336, 140), border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
+        sg.Button(key=random_commands[1], image_filename=f'./images/commands/{random_commands[1]}.png', image_size=(336, 140), border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
+        sg.Button(key=random_commands[2], image_filename=f'./images/commands/{random_commands[2]}.png', image_size=(336, 140), border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color()))]
+        #[sg.Button(button_text=random_commands[0], image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
+        #sg.Button(button_text=random_commands[1], image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
+        #sg.Button(button_text=random_commands[2], image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color()))]
     ]
 
     #pressToStart = [[sg.Button('Press To Speak To BruinBot', size=(500,500), image_filename='./button_smallest.png', image_size=(500,500))]]
