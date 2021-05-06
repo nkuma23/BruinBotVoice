@@ -26,6 +26,7 @@ def displayGUI():
         #[sg.Button(button_text=random_commands[0], image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
         #sg.Button(button_text=random_commands[1], image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color())),
         #sg.Button(button_text=random_commands[2], image_filename='./images/green_rectangle.png', image_size=(336, 140), image_subsample=7, border_width=0, button_color=(sg.theme_background_color(), sg.theme_background_color()))]
+
     ]
 
     #pressToStart = [[sg.Button('Press To Speak To BruinBot', size=(500,500), image_filename='./button_smallest.png', image_size=(500,500))]]
@@ -39,6 +40,7 @@ def displayGUI():
     #print(values)
     #print(event)
     voice.parser(event)
+
 
 if __name__ == "__main__":
     displayGUI()
