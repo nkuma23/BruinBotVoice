@@ -19,7 +19,7 @@ def speech_recognition(recognizer, microphone):
 
     with microphone as source:
         print("Listening...")
-        recognizer.adjust_for_ambient_noise(source)
+        # recognizer.adjust_for_ambient_noise(source)
         audio = recognizer.listen(source)
 
 
@@ -45,16 +45,16 @@ def speech_recognition(recognizer, microphone):
 
     return response
 
-def parser():
+def parser(sentence=""):
     weather_words = ['weather', 'whether', 'temperature', 'climate', 'sun', 'sunny']
     joke_words = ['joke','tell', 'humour', 'laugh']
     dance_words = ['dance', 'move', 'spin']
     goodbye_words = ['bye', 'goodbye', 'later']
     self_words = ['you']
-    sing_words = ['sing']
+    sing_words = ['sing', 'Sing'] #check if case matters
     music_words = ['music']
     age_words = ['age', 'old']
-    facts_words = ['interesting', 'fact']
+    facts_words = ['fact', 'interesting']
     game_words = ['game', 'guess']
     facts_list = [ #list of all fun facts available for bruinbot to say
         "Gene Block is Old",
@@ -82,6 +82,7 @@ def parser():
     while(PROMPT_LIMIT > 0):
         action_taken = False
         action = speech_recognition(recognizer, microphone)
+
         try: 
             words = action['transcription'].split()
         except AttributeError:
@@ -177,6 +178,101 @@ def parser():
 
         engine.runAndWait()
         
+def button(sentence):
+    weather_words = ['weather', 'whether', 'temperature', 'climate', 'sun', 'sunny']
+    joke_words = ['joke','tell', 'humour', 'laugh']
+    dance_words = ['dance', 'move', 'spin']
+    goodbye_words = ['bye', 'goodbye', 'later']
+    self_words = ['you']
+    sing_words = ['sing', 'Sing'] #check if case matters
+    music_words = ['music']
+    age_words = ['age', 'old']
+    facts_words = ['fact', 'interesting']
+    game_words = ['game', 'guess']
+    facts_list = [ #list of all fun facts available for bruinbot to say
+        "Gene Block is Old",
+        "UCLA is 101 years old"
+        ]
+    music_list = [  #urls to youtube videos bruinbot will play as audio
+        #entries in music list are of the form ("Youtube URL", StartingTime, RunTime)
+        ("https://www.youtube.com/watch?v=dQw4w9WgXcQ",42.5, 18.7)
+    ]
+    # Sing feature - Goodnews(22)
+    # Play Music - gmusicapi, vlc
+    # Age
+    # Interesting Facts about UCLA, ASME, Gene Block
+    # Guess the number game
+    
+    engine = pyttsx3.init()
+    engine.setProperty('voice', 'com.apple.speech.synthesis.voice.daniel')
+
+    weather_api_key = "2dfe2376a8e9b86b3e835b7abaac64cf"
+
+    action = sentence
+    words = action.split()
+    print("You said: {}".format(action))
+    for word in words:
+        if(word in weather_words):
+            city = "Los Angeles"
+            weather_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={weather_api_key}"
+            response = requests.get(weather_url)
+            current_weather = response.json()
+            temperature = pytemperature.k2f(current_weather["main"]["temp"])
+            engine.say(f"In Los Angeles, it is currently {temperature} degrees farenheit")
+            break
+        elif(word in joke_words):
+            joke = icanhazdad()
+            engine = pyttsx3.init()
+            engine.say(f'Here is a joke - {joke}')
+            break
+        elif(word in dance_words):
+            engine.say("I like to dance")
+            break
+        elif(word in goodbye_words):
+            engine.say("See ya")
+            break
+        elif(word in self_words):
+            engine.say("I am Brew in bot. I am immortal. Pleased to meet you.")
+            break
+        elif (word in sing_words):
+            engine.setProperty('voice', 'com.apple.speech.synthesis.voice.goodnews')
+            lyrics = "I am Brew in bot. I am an immortal. Nice to meet you."
+            engine.say(lyrics)
+            engine.setProperty('voice', 'com.apple.speech.synthesis.voice.daniel')
+            break
+        elif(word in music_words):
+            engine.say("This is one of my favorite songs. I hope you enjoy.")
+            engine.runAndWait()
+            song = random.choice(music_list)                                                                                       
+            video = pafy.new(song[0])                                                                                                           
+            best = video.getbestaudio()                                                                                                                 
+            playurl = best.url                                                                                                                        
+            Instance = vlc.Instance()
+            player = Instance.media_player_new()
+            Media = Instance.media_new(playurl)
+            Media.add_option(f"start-time={song[1]}")
+            Media.add_option(f"run-time={song[2]}") 
+            player.set_media(Media)
+            player.play()
+            time.sleep(song[2])
+            break
+        elif (word in age_words):
+            min_age = 0
+            max_age = 186
+            age = random.randint(min_age, max_age)
+            engine.say(f"I am {age} years old")
+            break
+        elif (word in facts_words):
+            fact = random.choice(facts_list)
+            engine.say(fact)
+            break
+        elif(word in game_words):
+            engine.say("Lets play a game")
+            guessingGame()
+            break
+    return engine.runAndWait()
+    
+        
 
 def guessingGame():
     NUM_GUESSES = 2
@@ -218,7 +314,7 @@ def guessingGame():
         if not made_guess:
             engine.say(f"Try guessing a number from {min} to {max}")
         print("You said: {}".format(action["transcription"]))
-        engine.runAndWait()
+        return engine.runAndWait()
 
 
 
