@@ -1,0 +1,199 @@
+#:kivy 2.0
+
+
+<MyLayout>
+    BoxLayout:
+        orientation: "vertical"
+        background_normal:
+        Label:
+            text: "This is the transcript of what the robot is saying"
+            size_hint: (1, 0.25)
+            canvas.before:
+                Color: 
+                    rgba: [77,77,77,0.5]
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+        BoxLayout:
+            orientation: "horizontal"
+            background_color: [109/255,110/255,112/255,1]
+            size_hint: (1, 0.75)
+            BoxLayout:
+                size_hint: (.333,1)
+                orientation: "vertical"
+                spacing: 20
+                padding: 10
+                ListenButton:
+                    size_hint: (1, 0.6)
+                    
+                BlueRoundedButton:
+                    text: "Command 3"
+                    id: command3
+                    size_hint: (1,0.4)
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: (.667,1)
+                #padding: 50
+                #spacing: 20
+                Label:
+                    text: "Tap the buttons or speak aloud to interact"
+                    size_hint: (1,0.2)
+                GridLayout:
+                    spacing: 20
+                    padding: 10
+                    rows:2
+                    cols:2
+                    RoundedButton2:
+                        text: "Command 1"
+                        id: command1
+                    BlueRoundedButton:
+                        text: "Command 2"
+                        id: command2
+                    BlueRoundedButton:
+                        text: "Command 4"
+                        id: command4
+                    PinkRoundedButton:
+                        text: "Goodbye, BruinBot"
+                        pos_hint: {'center_x': 0.5}
+                        size_hint: (1,.3)
+            
+
+<MyLayout1>
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 50
+        spacing: 20
+
+        Button:
+            text: "Hello World"
+        PinkRoundedButton:
+            text: "Goodbye Worlds"
+            pos_hint: {'center_x': 0.5}
+            size_hint: (1,.3)
+        BlueRoundedButton:
+            text: "Goodbye Worlds"
+            pos_hint: {'center_x': 0.5}
+            size_hint: (1,.3)
+            #on_press: print("goodbye")
+
+
+<RoundedButton@Button>
+    background_color: (0,0,0,0)
+
+    b_color_top: [48/255, 84/255, 150/255,1]
+    b_color_bottom: [48/255, 84/255, 150/255,0.5]
+    b_color: [48/255, 84/255, 150/255,1]
+    background_normal:
+    canvas.before:
+        Color:
+            rgba: self.b_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [18]
+    on_state:
+        if self.state == 'down': \
+        self.b_color = self.b_color_bottom
+        else: \
+        self.b_color = self.b_color_top
+
+
+<RoundedButton2@Button>
+    background_color: (0,0,0,0)
+    b_color_top: [48/255, 84/255, 150/255,1]
+    b_color_bottom: [48/255, 84/255, 150/255,0.5]
+    b_color: [48/255, 84/255, 150/255,1]
+    text_val: "hello World"
+    text_top: "hello World"
+    text_bottom: "hello World"
+    
+    background_normal:
+    canvas.before:
+        Color:
+            rgba: self.b_color_bottom
+        RoundedRectangle:
+            size: self.size
+            pos: (self.x-5, self.y-5)
+            radius: [18]
+        Color:
+            rgba: self.b_color
+        RoundedRectangle:
+            size: self.size
+            pos: (self.x+5, self.y+5)
+            radius: [18]
+    on_state:
+        if self.state == 'down': \
+        self.b_color = [0,0,0,0]
+        else: \
+        self.b_color = self.b_color_top
+    # Label:
+    #     text: root.text_bottom
+    #     pos_hint: {'y': 0.5, 'x':0.5}
+    # Label:
+    #     text: root.text_top
+        #pos: (root.x-5, root.y-5)
+
+
+<ListenButton@Button>
+    background_color: (0,0,0,0)
+    src_normal: "images\Tap-To-Speak.png"
+    src_down: "images\Listening.png"
+    src: "images\Tap-To-Speak.png"
+    on_release: app.runListen()
+    on_state:
+        if self.state == 'down': \
+        self.src = self.src_down
+        else: \
+        self.src = self.src_normal
+    Image:
+        source: root.src
+        # center_y: self.parent.center_y
+        # center_x: self.parent.center_x
+        x: root.x
+        y: root.y
+        allow_stretch: True
+        # size_hint: (1, 1)
+        size: self.parent.size
+
+
+<CircleButton@Button>
+    b_color_top: [48/255, 84/255, 150/255,1]
+    b_color_bottom: [48/255, 84/255, 150/255,0.5]
+    b_color: [48/255, 84/255, 150/255,1]
+    canvas.before:
+        Color:
+            rgba: self.b_color
+        Ellipse:
+            size: self.size
+            pos: self.pos
+    on_state:
+        if self.state == 'down': \
+        self.b_color = self.b_color_bottom
+        else: \
+        self.b_color = self.b_color_top
+
+
+<GreenCircleButton@CircleButton>
+    b_color: [77/255, 197/255, 63/255,1]
+    b_color_top: [77/255, 197/255, 63/255,1]
+    b_color_bottom: [255/255,241/255,0/255,1]
+    color: [255,255,255,1]
+
+<PinkRoundedButton@RoundedButton2>
+    b_color_bottom: [188/255,86/255,150/255,1]
+    b_color: [226/255, 136/255, 190/255,1]
+    b_color_top: [226/255, 136/255, 190/255,1]
+    
+
+<BlueRoundedButton@RoundedButton2>
+    b_color: [0/255, 173/255, 238/255,1]
+    b_color_top: [0/255, 173/255, 238/255,1]
+    b_color_bottom: [27/255, 117/255, 187/255,1]
+    #when pressed will pass text input to voice parser
+    on_release: app.runVoice(self.text)
+    
+
+
+
+

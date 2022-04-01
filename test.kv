@@ -1,0 +1,88 @@
+#:kivy 2.0
+<TestWidget>
+    Button:
+        text: "Click me"
+        on_release: root.updateText()
+    Button:
+        text: "Click me"
+        on_release: root.updateText()
+    Button:
+        text: "Click me"
+        on_release: root.updateText()
+    Button:
+        text: "Click me"
+        on_release: root.updateText()
+    Button:
+        text: "Click me"
+        on_release: root.updateText()
+    Button:
+        text: "Click me"
+        on_release: root.updateText()
+    Label:
+        id: clicked
+        text: "Not Clicked yet"
+
+
+<RoundedButton@Button>
+    background_color: "lime"
+
+<extraStuff>
+    canvas:
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [58]
+
+
+<TestButtons>
+    RoundedButton:
+        text: "Click me"
+        #on_release: root.updateText()
+        
+
+
+<TestGUI>
+    orientation: 'vertical'
+    BoxLayout
+        Button:
+            text: "Who are you?"
+            on_release: root.updateText()
+            background_color: "lime"
+            on_release: root.runVoice(self.text)
+        Button:
+            text: "Lets Play a game"
+            on_release: root.updateText()
+            background_color: "lime"
+            on_release: root.runVoice(self.text)
+        Button:
+            text: "Tell me a joke"
+            on_release: root.updateText()
+            background_color: "lime"
+            on_release: root.runVoice(self.text)
+    BoxLayout:
+        Label:
+        Button:
+            text: "Press To Speak To BruinBot"
+            id: record
+            on_release: root.runVoice(self.text)
+            background_color: "red"
+        Label:
+    BoxLayout:
+        Button:
+            text: "Click me"
+            id: random1
+            on_release: root.updateText()
+            background_color: "lime"
+            on_release: root.runVoice(self.text)
+        Button:
+            text: "Click me"
+            id: random2
+            on_release: root.updateText()
+            background_color: "lime"
+            on_release: root.runVoice(self.text)
+        Button:
+            text: "Click me"
+            id: random3
+            on_release: root.updateText()
+            background_color: "lime"
+            on_release: root.runVoice(self.text)
