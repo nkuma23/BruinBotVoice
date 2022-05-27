@@ -5,16 +5,17 @@ from kivy.graphics import Color
 from kivy.core.window import Window
 import voice
 
-commandList = ["What's the weather like", "Do a dance", "Sing a song", "Play music", "How old are you", "Tell me a fun fact"]
+commandList = ["What's the\n weather like", "Do a dance", "Sing a song", "Play music", "How old are you", "Tell me a fun fact"]
 import random
+Window.fullscreen=True
 # from kivy.lang import Builder
 # from kivy.config import Config
 # from kivy.uix.floatlayout import FloatLayout
 
 class RoundButtonApp(App):
     def build(self):
-        #Hides the kivy window in display
-        #Window.borderless = True
+        # Hides the kivy window in display
+        Window.borderless = True
         #randomly select 4 commands from commandList
         random_commands = random.sample(commandList, 4)
         testGui = MyLayout() #create instance of starting layout
@@ -25,16 +26,26 @@ class RoundButtonApp(App):
         testGui.ids.command4.text = random_commands[3]
         return testGui
     def runVoice(self, val):
-        voice.parser(val)
+        # pass
+        response = voice.parser(val)
+        self.setTranscript(response)
+        # voice.speak(response)
+        # voice.hello()
+    def speak(self, command):
+        voice.speak(command)
     def runListen(self):
+        # pass
         voice.parser("Press To Speak To BruinBot")
+    def setTranscript(self, message):
+        self.root.ids.transcript.text = message
 
 
 class MyLayout(BoxLayout):
     def build(self):
         pass
     def runVoice(self, val):
-        voice.parser(val)
+        pass
+        #voice.parser(val)
 
 if __name__ == "__main__":
     RoundButtonApp().run()

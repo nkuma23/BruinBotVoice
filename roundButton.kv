@@ -1,11 +1,15 @@
 #:kivy 2.0
 
-
+<Label>:
+    font_size: dp(15)
+    font_name: './fonts/Calibri Bold.ttf'
+    
 <MyLayout>
     BoxLayout:
         orientation: "vertical"
         background_normal:
         Label:
+            id: transcript
             text: "This is the transcript of what the robot is saying"
             size_hint: (1, 0.25)
             canvas.before:
@@ -137,9 +141,9 @@
 
 <ListenButton@Button>
     background_color: (0,0,0,0)
-    src_normal: "images\Tap-To-Speak.png"
-    src_down: "images\Listening.png"
-    src: "images\Tap-To-Speak.png"
+    src_normal: "images/Tap-To-Speak.png"
+    src_down: "images/Listening.png"
+    src: "images/Tap-To-Speak.png"
     on_release: app.runListen()
     on_state:
         if self.state == 'down': \
@@ -184,6 +188,8 @@
     b_color_bottom: [188/255,86/255,150/255,1]
     b_color: [226/255, 136/255, 190/255,1]
     b_color_top: [226/255, 136/255, 190/255,1]
+    on_press: app.setTranscript('Goodbye')
+    on_release: app.speak('Goodbye')
     
 
 <BlueRoundedButton@RoundedButton2>
@@ -191,7 +197,8 @@
     b_color_top: [0/255, 173/255, 238/255,1]
     b_color_bottom: [27/255, 117/255, 187/255,1]
     #when pressed will pass text input to voice parser
-    on_release: app.runVoice(self.text)
+    on_press: app.runVoice(self.text)
+    on_release: app.speak(app.root.ids.transcript.text)
     
 
 
