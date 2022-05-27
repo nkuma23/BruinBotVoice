@@ -7,7 +7,7 @@ import voice
 
 commandList = ["What's the\n weather like", "Do a dance", "Sing a song", "Play music", "How old are you", "Tell me a fun fact"]
 import random
-Window.fullscreen=True
+# Window.fullscreen=True
 # from kivy.lang import Builder
 # from kivy.config import Config
 # from kivy.uix.floatlayout import FloatLayout
@@ -34,10 +34,14 @@ class RoundButtonApp(App):
     def speak(self, command):
         voice.speak(command)
     def runListen(self):
-        # pass
         voice.parser("Press To Speak To BruinBot")
     def setTranscript(self, message):
         self.root.ids.transcript.text = message
+    def goodbye(self):
+        voice.speak('Goodbye')
+        self.stop()
+        # App.get_running_app().stop()
+
 
 
 class MyLayout(BoxLayout):
