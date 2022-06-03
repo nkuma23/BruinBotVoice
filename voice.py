@@ -8,12 +8,14 @@ import random
 import pafy
 import vlc
 import os
-# from say import *
+
+# pyttsx3 is not compatible with kivy for Mac so say is used instead for speech
+onMac = True
+if onMac:
+    from say import *
 
 
-def hello():
-    print('hello')
-
+#listend to incoming audio and returns recognized text
 def speech_recognition(recognizer, microphone):
     
     if not isinstance(recognizer, sr.Recognizer):
@@ -50,18 +52,21 @@ def speech_recognition(recognizer, microphone):
 
     return response
 
+
+#function that speaks out a given string
 def speak(command):
     microphone = sr.Microphone()
     engine = pyttsx3.init()
     engine.setProperty('voice', 'com.apple.speech.synthesis.voice.daniel')
     engine.say(command)
-    engine.runAndWait()
-    # if (command == "Goodbye"): 
-    #     engine.runAndWait()
-    #     # print(command)
-    # else:
-    #     os.system(f"say {command}")
+    if(onMac):
+        os.system(f"say {command}")
+    else:
+        engine.runAndWait()
 
+#Takes in a string input command and responds to that command
+#If command is "" or "Press To Speak To BruinBot" calls speech_recognition 
+#   function to listen to user audio input
 def parser(button_input=""):
     weather_words = ['weather', 'weather?', 'whether', 'temperature', 'climate', 'sun', 'sunny']
 

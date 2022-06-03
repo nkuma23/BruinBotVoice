@@ -12,7 +12,7 @@ import random
 # from kivy.config import Config
 # from kivy.uix.floatlayout import FloatLayout
 
-class RoundButtonApp(App):
+class BruinBotApp(App):
     def build(self):
         # Hides the kivy window in display
         Window.borderless = True
@@ -52,4 +52,4 @@ class MyLayout(BoxLayout):
         #voice.parser(val)
 
 if __name__ == "__main__":
-    RoundButtonApp().run()
+    BruinBotApp().run()
