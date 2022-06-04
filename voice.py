@@ -58,7 +58,8 @@ def speech_recognition(recognizer, microphone):
 def speak(command):
     microphone = sr.Microphone()
     engine = pyttsx3.init()
-    engine.setProperty('voice', 'com.apple.speech.synthesis.voice.daniel')
+    engine.setProperty('voice', 'english')
+    engine.setProperty('rate', 130)
     engine.say(command)
     if(onMac):
         os.system(f"say {command}")

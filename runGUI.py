@@ -8,7 +8,7 @@ import time
 import voice
 import makeRequest
 
-commandList = ["What's the\n weather like", "Do a dance", "Sing a song", "Play music", "How old are you", "Tell me a fun fact"]
+commandList = ["What's the\n weather like", "Do a dance", "Sing a song", "Play music", "How old are you", "Tell me a fun fact", "Tell me a joke"]
 #converts int to string representation to use dispense API
 import random
 # Window.fullscreen=True
