@@ -6,8 +6,10 @@ from kivy.graphics import Color
 from kivy.core.window import Window
 import time
 import voice
+import makeRequest
 
 commandList = ["What's the\n weather like", "Do a dance", "Sing a song", "Play music", "How old are you", "Tell me a fun fact"]
+#converts int to string representation to use dispense API
 import random
 # Window.fullscreen=True
 # from kivy.lang import Builder
@@ -53,6 +55,15 @@ class BruinBotApp(App):
         # App.get_running_app().stop()
     def dispenseGift(self, giftNum):
         print(giftNum)
+
+        #dispense gift api
+        #endpoint:
+        #   /dispense
+        #args:
+        #   int bin: (1,2,3, or 4)
+        url = "http://192.168.0.101:5000/dispense"
+        makeRequest.dispense(giftNum)
+
 
     def switchScreen(self, screenName):
         self.root.current = screenName

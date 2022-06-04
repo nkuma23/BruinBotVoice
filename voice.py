@@ -10,7 +10,7 @@ import vlc
 import os
 
 # pyttsx3 is not compatible with kivy for Mac so say is used instead for speech
-onMac = True
+onMac = False
 if onMac:
     from say import *
 
@@ -28,7 +28,7 @@ def speech_recognition(recognizer, microphone):
         print("Listening...")
         # recognizer.adjust_for_ambient_noise(source)
         audio = recognizer.listen(source)
-
+    
 
     r = sr.Recognizer()
 
