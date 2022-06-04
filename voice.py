@@ -8,6 +8,7 @@ import random
 import pafy
 import vlc
 import os
+import makeRequest
 
 # pyttsx3 is not compatible with kivy for Mac so say is used instead for speech
 onMac = False
@@ -127,6 +128,7 @@ def parser(button_input=""):
         elif(word in joke_words):
             joke = icanhazdad()
             engine = pyttsx3.init()
+            makeRequest.callEmotion("happy_emphasis")
             return f'Here is a joke - {joke}'
         elif(word in dance_words):
             return "I like to dance"

@@ -9,5 +9,13 @@ def dispense(num):
     except:
         print(f"Error dispensing gift {num}")
 
+def callEmotion(emotion):
+    url = 'http://192.168.0.101:5000/face'
+    try:
+        requests.post(url, json={'emotion':emotion, 'duration':'50'})
+    except:
+        print(f"Error calling emotion")
+
+
 
 requests.post("http://192.168.0.101:5000/dispense", json={'bin':'two'})
