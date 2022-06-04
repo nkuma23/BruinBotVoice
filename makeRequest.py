@@ -16,6 +16,15 @@ def callEmotion(emotion):
     except:
         print(f"Error calling emotion")
 
+##moves head based on:
+##  direction: up, down, left, right
+def moveHead(direction):
+    url = 'http://192.168.0.101:5000/head'
+    try:
+        requests.post(url, json={'direction':direction, 'move':'TRUE'})
+    except:
+        print(f"Error moving head")
+
 
 
 
